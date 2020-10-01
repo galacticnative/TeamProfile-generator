@@ -1,0 +1,22 @@
+{
+  "name": "teamprofile-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/galacticnative/TeamProfile-generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/galacticnative/TeamProfile-generator/issues"
+  },
+  "homepage": "https://github.com/galacticnative/TeamProfile-generator#readme",
+  "devDependencies": {
+    "jest": "^26.4.2"
+  }
+}
