@@ -23,39 +23,52 @@ const promptQuestions = () => {
     // },    
     {
         type: 'input',
-        name: 'name',
-        message: 'What is your name?',
-        validate: nameInput => {
-          if (nameInput) {
+        name: 'managername',
+        message: 'What is your Manager name?',
+        validate: managerNameInput => {
+          if (managerNameInput) {
             return true;
           } else {
-            console.log('Please enter your name!');
+            console.log('Please enter your manager name!');
             return false;
           }
         }
     },
     {
         type: 'input',
-        name: 'id',
-        message: 'What is your employee ID?',
-        validate: idInput => {
-          if (idInput) {
+        name: 'managerid',
+        message: 'What is your manager ID?',
+        validate: managerIdInput => {
+          if (managerIdInput) {
             return true;
           } else {
-            console.log('Please enter your employee ID!');
+            console.log('Please enter your manager ID!');
             return false;
           }
         }
     },
     {
         type: 'input',
-        name: 'email',
-        message: 'What is your EMAIL?',
-        validate: emailInput => {
-          if (emailInput) {
+        name: 'manageremail',
+        message: 'What is your manager EMAIL?',
+        validate: managerEmailInput => {
+          if (managerEmailInput) {
             return true;
           } else {
-            console.log('Please enter your email!');
+            console.log('Please enter your manager email!');
+            return false;
+          }
+        }
+    },
+    {
+        type: 'input',
+        name: 'office',
+        message: 'What is the manager office number?',
+        validate: officeInput => {
+          if (officeInput) {
+            return true;
+          } else {
+            console.log('Please enter your office number!');
             return false;
           }
         }
@@ -66,73 +79,112 @@ const promptQuestions = () => {
     //     message: 'Confirm your role to add extra details.',
     //     default: true
     //   },
-      {
-        type: 'list',
-        name: 'role',
-        message: 'Select your role to add extra details:',
-        choices: ['manager', 'engineer', 'intern'],
-        validate: confirmRole => {
-          if (confirmRole) {
-              if('manager' === 'manager') {
-                getOfficeNumber();
-            } else if('engineer' === 'engineer') {
-                getGithub();
-            } else if('intern' === 'intern') {
-                getSchool();
-            }
-            return true;
-          } else {
-            return false;
-          }
-        }
+    //   {
+    //     type: 'list',
+    //     name: 'role',
+    //     message: 'Select your role to add extra details:',
+    //     choices: ['manager', 'engineer', 'intern'],
+    //     validate: confirmRole => {
+    //       if (confirmRole) {
+    //           if('manager' === 'manager') {
+    //             getOfficeNumber();
+    //         } else if('engineer' === 'engineer') {
+    //             getGithub();
+    //         } else if('intern' === 'intern') {
+    //             getSchool();
+    //         }
+    //         return true;
+    //       } else {
+    //         return false;
+    //       }
+    //     }
+    // },
+    {
+        type: 'confirm',
+        name: 'confirmAddEngineer',
+        message: 'Would you like to add an ENGINEER?',
+        default: false
     },
     {
         type: 'confirm',
-        name: 'confirmAddRole',
-        message: 'Would you like to enter another employee?',
+        name: 'confirmAddIntern',
+        message: 'Would you like to add an INTERN?',
         default: false
     }
   ])
   .then(nextRole => {
     
-    if (nextRole.confirmAddRole) {
-      return promptQuestions();
+    if (nextRole.confirmAddEngineer) {
+        return addEngineer();
+    } else if (nextRole.confirmAddIntern) {
+        return addIntern();
+    } else {
+        endTeam();
     }
-    // } else {
-    //   return portfolioData;
-    // }
   });
 };
 
-const getOfficeNumber = () => {
+const endTeam = () => {
+    return inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'confirmEnd',
+            message: 'Add more employees? Marking NO will end prompts.',
+            default: false
+        }
+    ])
+}
+
+const addEngineer = () => {
     return inquirer.prompt([
         {
             type: 'input',
-            name: 'office',
-            message: 'What is your office number?',
-            validate: officeInput => {
-              if (officeInput) {
+            name: 'engineername',
+            message: 'What is your Engineer name?',
+            validate: engineerNameInput => {
+              if (engineerNameInput) {
                 return true;
               } else {
-                console.log('Please enter your office number!');
+                console.log('Please enter your engineer name!');
                 return false;
               }
             }
         },
-    ]);
-}
-
-const getGithub = () => {
-    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'engineerid',
+            message: 'What is your Engineer ID?',
+            validate: engineerIdInput => {
+              if (engineerIdInput) {
+                return true;
+              } else {
+                console.log('Please enter your Engineer ID!');
+                return false;
+              }
+            }
+        },
+        {
+            type: 'input',
+            name: 'engineeremail',
+            message: 'What is your engineer EMAIL?',
+            validate: engineerEmailInput => {
+              if (engineerEmailInput) {
+                return true;
+              } else {
+                console.log('Please enter your manager email!');
+                return false;
+              }
+            }
+        },
         {
             type: 'input',
             name: 'github',
-            message: 'What is your Github username?',
+            message: 'What is the engineer Github username?',
             validate: githubInput => {
               if (githubInput) {
                 return true;
               } else {
-                console.log('Please enter your Github username!');
+                console.log('Please enter Github username!');
                 return false;
               }
             }
@@ -140,8 +192,47 @@ const getGithub = () => {
     ]);
 }
 
-const getSchool = () => {
+const addIntern = () => {
     return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'internname',
+            message: 'What is your Intern name?',
+            validate: internNameInput => {
+              if (internNameInput) {
+                return true;
+              } else {
+                console.log('Please enter your Intern name!');
+                return false;
+              }
+            }
+        },
+        {
+            type: 'input',
+            name: 'internid',
+            message: 'What is your Intern ID?',
+            validate: internIdInput => {
+              if (internIdInput) {
+                return true;
+              } else {
+                console.log('Please enter your intern ID!');
+                return false;
+              }
+            }
+        },
+        {
+            type: 'input',
+            name: 'internemail',
+            message: 'What is your Intern EMAIL?',
+            validate: internEmailInput => {
+              if (internEmailInput) {
+                return true;
+              } else {
+                console.log('Please enter your Intern email!');
+                return false;
+              }
+            }
+        },
         {
             type: 'input',
             name: 'school',
