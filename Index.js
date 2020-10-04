@@ -2,25 +2,13 @@ const inquirer = require('inquirer');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
+const generateHtml = require('./src/generateHtml');
 
 const fs = require('fs');
 
 const promptQuestions = () => {
     return inquirer.prompt([
-    // {
-    //     type: 'list',
-    //     name: 'role',
-    //     message: 'What is your employee ROLE?',
-    //     choices: ['manager', 'engineer', 'intern'],
-    //     validate: roleList => {
-    //         if (roleList) {
-    //         return true;
-    //         } else {
-    //         console.log('Please select a role!');
-    //         return false;
-    //         }
-    //     }
-    // },    
+        
     {
         type: 'input',
         name: 'managername',
@@ -73,53 +61,19 @@ const promptQuestions = () => {
           }
         }
     },
-    // {
-    //     type: 'confirm',
-    //     name: 'confirmRole',
-    //     message: 'Confirm your role to add extra details.',
-    //     default: true
-    //   },
-    //   {
-    //     type: 'list',
-    //     name: 'role',
-    //     message: 'Select your role to add extra details:',
-    //     choices: ['manager', 'engineer', 'intern'],
-    //     validate: confirmRole => {
-    //       if (confirmRole) {
-    //           if('manager' === 'manager') {
-    //             getOfficeNumber();
-    //         } else if('engineer' === 'engineer') {
-    //             getGithub();
-    //         } else if('intern' === 'intern') {
-    //             getSchool();
-    //         }
-    //         return true;
-    //       } else {
-    //         return false;
-    //       }
-    //     }
-    // },
     {
         type: 'confirm',
         name: 'confirmAddEngineer',
         message: 'Would you like to add an ENGINEER?',
         default: false
     },
-    {
-        type: 'confirm',
-        name: 'confirmAddIntern',
-        message: 'Would you like to add an INTERN?',
-        default: false
-    }
   ])
   .then(nextRole => {
     
     if (nextRole.confirmAddEngineer) {
         return addEngineer();
-    } else if (nextRole.confirmAddIntern) {
-        return addIntern();
     } else {
-        endTeam();
+        addIntern();
     }
   });
 };
@@ -129,10 +83,15 @@ const endTeam = () => {
         {
             type: 'confirm',
             name: 'confirmEnd',
-            message: 'Add more employees? Marking NO will end prompts.',
+            message: 'Mark NO to end prompts.',
             default: false
         }
     ])
+    .then(newPrompt => {
+        if (newPrompt === true) {
+            return promptQuestions();
+        }
+    })
 }
 
 const addEngineer = () => {
@@ -189,7 +148,20 @@ const addEngineer = () => {
               }
             }
         },
-    ]);
+        {
+            type: 'confirm',
+            name: 'confirmAddIntern',
+            message: 'Would you like to add an INTERN?',
+            default: false
+        }
+    ])
+    .then(anotherRole => {
+        if (anotherRole.confirmAddIntern) {
+            return addIntern();
+        } else {
+            return endTeam();
+        }
+    })
 }
 
 const addIntern = () => {
@@ -236,7 +208,7 @@ const addIntern = () => {
         {
             type: 'input',
             name: 'school',
-            message: 'What is your school name?',
+            message: 'What is your Intern SCHOOL name?',
             validate: schoolInput => {
               if (schoolInput) {
                 return true;
@@ -251,7 +223,7 @@ const addIntern = () => {
 
 //promptQuestions();
 
-// function to write README file
+// function to write HTML file
 function writeToFile(data) {
     fs.writeFile('./dist/index.html', data, err => {
         if (err) throw err;
