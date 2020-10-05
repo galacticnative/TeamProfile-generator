@@ -6,8 +6,10 @@ const generateHtml = require('./src/generateHtml');
 
 const fs = require('fs');
 
+//array to store prompt input
 const employeeData = [];
 
+//initiats question prompts in terminal aftern typing "node index"
 const promptQuestions = () => {
     return inquirer.prompt([
         
@@ -271,7 +273,7 @@ const addIntern = () => {
 }
 
 
-
+//calls prompt questions function
 promptQuestions();
 
 // function to write HTML file
@@ -285,7 +287,4 @@ function writeToFile(data) {
 function init() {
         const createHtml = generateHtml(employeeData)
         writeToFile(createHtml)
-}
-
-
-
+};
