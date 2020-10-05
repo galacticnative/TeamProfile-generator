@@ -1,53 +1,54 @@
 const createTeam = generateHtml => {
-
+    //generates manager data into a card in the html
+    //the getName() function is pulling data from the /lib files
     const createManager = manager => {
         return `
         <div class="card" style="width: 18rem;">
-        <div class="card-header name manager">
+        <div class="card-header name manager bg-success">
             <h3>${manager.getName()}</h3>
             <h4>Manager</h4>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item id">ID: ${manager.getId()}</li>
-            <li class="list-group-item email">Email: ${manager.getEmail()}</li>
+            <a class="list-group-item email" href="mailto:${manager.getEmail()}">${manager.getEmail()}</a>
             <li class="list-group-item office">Office Number: ${manager.getOfficeNumber()}</li>
         </ul>
         </div>
         `;
     };
-
+    //generates the engineer data into a card
     const createEngineer = engineer => {
         return `
         <div class="card" style="width: 18rem;">
-        <div class="card-header name engineer">
+        <div class="card-header name engineer bg-primary">
             <h3>${engineer.getName()}</h3>
             <h4>Engineer</h4>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item id">ID: ${engineer.getId()}</li>
-            <li class="list-group-item email">Email: ${engineer.getEmail()} </li>
-            <li class="list-group-item github">Github: ${engineer.getGithub()}</li>
+            <a class="list-group-item email" href="mailto:${engineer.getEmail()}">${engineer.getEmail()}</a>
+            <a class="list-group-item github" href="https://github.com/${engineer.getGithub()}" target="_blank">Github: ${engineer.getGithub()}</a>
         </ul>
         </div>
         `;
     };
-
+    //generates the intern data
     const createIntern = intern => {
         return `
         <div class="card" style="width: 18rem;">
-        <div class="card-header name intern">
+        <div class="card-header name intern bg-warning">
             <h3>${intern.getName()}</h3>
             <h4>Intern</h4>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item id">ID: ${intern.getId()}</li>
-            <li class="list-group-item email">Email: ${intern.getEmail()}</li>
+            <a class="list-group-item email" href="mailto:${intern.getEmail()}">${intern.getEmail()}</a>
             <li class="list-group-item school">School: ${intern.getSchool()}</li>
         </ul>
         </div>
         `;
     };
-
+    //pulling array data and returning a string to insert into employee data
     const insertData = [];
 
     insertData.push(generateHtml
@@ -68,7 +69,7 @@ const createTeam = generateHtml => {
     return insertData.join("");
 
 }
-
+//connects generateHtml file to the index.js file
 module.exports = generateHtml => {
     return `
     <!DOCTYPE html>
@@ -89,13 +90,15 @@ module.exports = generateHtml => {
     <body>
       <header>
         <div class="jumbotron">
-            <h1 class="display-4">Your Team!</h1>
+            <h1 class="display-4 text-center">Your Team!</h1>
         </div>
       </header>
       <main>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
+                <div class="data-area col-12 d-flex justify-content-center mr-3">
                 ${createTeam(generateHtml)}
+                </div>
             </div>
         </div>
       </main>

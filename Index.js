@@ -100,20 +100,33 @@ const nextEmployee = () => {
     })
 }
 
+const confirmIntern = () => {
+    return inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'addInternRole',
+            message: 'Would you like to add another Intern?',
+            default: false
+        }
+    ])
+    .then(decideIntern => {
+        if(decideIntern.addInternRole) {
+            return addIntern();
+        } else {
+            return endTeam();
+        }
+    })
+}
+
 const endTeam = () => {
     return inquirer.prompt([
         {
             type: 'confirm',
             name: 'confirmEnd',
-            message: 'Type NO to end prompts.',
+            message: 'Type NO to end prompts/teams.',
             default: false
         }
     ])
-    // .then(newPrompt => {
-    //     if (newPrompt === true) {
-    //         return promptQuestions();
-    //     }
-    // })
 }
 
 const addEngineer = () => {
@@ -174,7 +187,7 @@ const addEngineer = () => {
         {
             type: 'confirm',
             name: 'confirmAddIntern',
-            message: 'Would you like to add an INTERN?',
+            message: 'Would you like to add another Engineer?',
             default: false
         }
     ])
@@ -183,9 +196,9 @@ const addEngineer = () => {
 
         employeeData.push(engineer);
         if (storeEngineer.confirmAddIntern) {
-            return addIntern();
+            return addEngineer();
         } else {
-            return endTeam();
+            return confirmIntern();
         }
     })
 }
@@ -250,7 +263,9 @@ const addIntern = () => {
         const intern = new Intern(storeIntern.internname, storeIntern.internid, storeIntern.internemail, storeIntern.school)
 
         employeeData.push(intern);
-        console.log(employeeData);
+
+        confirmIntern();
+        //console.log(employeeData);
         init();
     })
 }
@@ -263,7 +278,6 @@ promptQuestions();
 function writeToFile(data) {
     fs.writeFile('./dist/index.html', data, err => {
         if (err) throw err;
-        console.log("You are the Manager now")
     })
 }
 
@@ -272,4 +286,6 @@ function init() {
         const createHtml = generateHtml(employeeData)
         writeToFile(createHtml)
 }
+
+
 
