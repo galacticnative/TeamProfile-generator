@@ -251,28 +251,25 @@ const addIntern = () => {
 
         employeeData.push(intern);
         console.log(employeeData);
+        init();
     })
 }
 
 
 
-//promptQuestions();
+promptQuestions();
 
 // function to write HTML file
 function writeToFile(data) {
     fs.writeFile('./dist/index.html', data, err => {
         if (err) throw err;
+        console.log("You are the Manager now")
     })
 }
 
 // function to initialize program
 function init() {
-    promptQuestions()
-    .then(employeeData => {
         const createHtml = generateHtml(employeeData)
         writeToFile(createHtml)
-    })
 }
 
-// function call to initialize program
-init();

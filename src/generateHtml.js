@@ -1,6 +1,75 @@
+const createTeam = generateHtml => {
 
+    const createManager = manager => {
+        return `
+        <div class="card" style="width: 18rem;">
+        <div class="card-header name manager">
+            <h3>${manager.getName()}</h3>
+            <h4>Manager</h4>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item id">ID: ${manager.getId()}</li>
+            <li class="list-group-item email">Email: ${manager.getEmail()}</li>
+            <li class="list-group-item office">Office Number: ${manager.getOfficeNumber()}</li>
+        </ul>
+        </div>
+        `;
+    };
 
-function generateHtml() {
+    const createEngineer = engineer => {
+        return `
+        <div class="card" style="width: 18rem;">
+        <div class="card-header name engineer">
+            <h3>${engineer.getName()}</h3>
+            <h4>Engineer</h4>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item id">ID: ${engineer.getId()}</li>
+            <li class="list-group-item email">Email: ${engineer.getEmail()} </li>
+            <li class="list-group-item github">Github: ${engineer.getGithub()}</li>
+        </ul>
+        </div>
+        `;
+    };
+
+    const createIntern = intern => {
+        return `
+        <div class="card" style="width: 18rem;">
+        <div class="card-header name intern">
+            <h3>${intern.getName()}</h3>
+            <h4>Intern</h4>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item id">ID: ${intern.getId()}</li>
+            <li class="list-group-item email">Email: ${intern.getEmail()}</li>
+            <li class="list-group-item school">School: ${intern.getSchool()}</li>
+        </ul>
+        </div>
+        `;
+    };
+
+    const insertData = [];
+
+    insertData.push(generateHtml
+        .filter(teammate => teammate.getRole() === "Manager")
+        .map(manager => createManager(manager))
+    );
+    insertData.push(generateHtml
+        .filter(teammate => teammate.getRole() === "Engineer")
+        .map(engineer => createEngineer(engineer))
+        .join("")
+    );
+    insertData.push(generateHtml
+        .filter(teammate => teammate.getRole() === "Intern")
+        .map(intern => createIntern(intern))
+        .join("")
+    );
+
+    return insertData.join("");
+
+}
+
+module.exports = generateHtml => {
     return `
     <!DOCTYPE html>
     <html lang="en">
@@ -26,39 +95,7 @@ function generateHtml() {
       <main>
         <div class="container-fluid">
             <div class="row">
-                <div class="card" style="width: 18rem;">
-                <div class="card-header name manager">
-                    <h3>${Manager.name}</h3>
-                    <h4>Manager</h4>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item id">ID: ${Manager.id}</li>
-                    <li class="list-group-item email">Email: ${Manager.email}</li>
-                    <li class="list-group-item office">Office Number: ${Manager.officeNumber}</li>
-                </ul>
-                </div>
-                <div class="card" style="width: 18rem;">
-                <div class="card-header name engineer">
-                    <h3>${Engineer.name}</h3>
-                    <h4>Engineer</h4>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item id">ID: ${Engineer.id}</li>
-                    <li class="list-group-item email">Email: ${Engineer.email} </li>
-                    <li class="list-group-item github">Github: ${Engineer.github}</li>
-                </ul>
-                </div>
-                <div class="card" style="width: 18rem;">
-                <div class="card-header name intern">
-                    <h3>${Intern.name}</h3>
-                    <h4>Intern</h4>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item id">ID: ${Intern.id}</li>
-                    <li class="list-group-item email">Email: ${Intern.email}</li>
-                    <li class="list-group-item school">School: ${Intern.school}</li>
-                </ul>
-                </div>
+                ${createTeam(generateHtml)}
             </div>
         </div>
       </main>
@@ -69,4 +106,3 @@ function generateHtml() {
     `
 }
 
-module.exports = generateHtml;
