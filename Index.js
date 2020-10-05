@@ -76,6 +76,8 @@ const promptQuestions = () => {
     const manager = new Manager(storeManager.managername, storeManager.managerid, storeManager.manageremail, storeManager.office)
 
     employeeData.push(manager);
+
+    init();
     if (storeManager.confirmAddEngineer) {
         return addEngineer();
     } else {
