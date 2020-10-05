@@ -1,4 +1,6 @@
-function generateHtml(data) {
+
+
+function generateHtml() {
     return `
     <!DOCTYPE html>
     <html lang="en">
@@ -26,35 +28,35 @@ function generateHtml(data) {
             <div class="row">
                 <div class="card" style="width: 18rem;">
                 <div class="card-header name manager">
-                    <h3>${data.managername}</h3>
+                    <h3>${Manager.name}</h3>
                     <h4>Manager</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item id">ID: ${data.managerid}</li>
-                    <li class="list-group-item email">Email: ${data.manageremail}</li>
-                    <li class="list-group-item office">Office Number: ${data.office}</li>
+                    <li class="list-group-item id">ID: ${Manager.id}</li>
+                    <li class="list-group-item email">Email: ${Manager.email}</li>
+                    <li class="list-group-item office">Office Number: ${Manager.officeNumber}</li>
                 </ul>
                 </div>
                 <div class="card" style="width: 18rem;">
                 <div class="card-header name engineer">
-                    <h3>${data.engineername}</h3>
+                    <h3>${Engineer.name}</h3>
                     <h4>Engineer</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item id">ID: ${data.engineerid}</li>
-                    <li class="list-group-item email">Email: ${data.engineeremail} </li>
-                    <li class="list-group-item github">Github: ${data.github}</li>
+                    <li class="list-group-item id">ID: ${Engineer.id}</li>
+                    <li class="list-group-item email">Email: ${Engineer.email} </li>
+                    <li class="list-group-item github">Github: ${Engineer.github}</li>
                 </ul>
                 </div>
                 <div class="card" style="width: 18rem;">
                 <div class="card-header name intern">
-                    <h3>${data.internname}</h3>
+                    <h3>${Intern.name}</h3>
                     <h4>Intern</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item id">ID: ${data.internid}</li>
-                    <li class="list-group-item email">Email: ${data.internemail}</li>
-                    <li class="list-group-item school">School: ${data.school}</li>
+                    <li class="list-group-item id">ID: ${Intern.id}</li>
+                    <li class="list-group-item email">Email: ${Intern.email}</li>
+                    <li class="list-group-item school">School: ${Intern.school}</li>
                 </ul>
                 </div>
             </div>

@@ -6,6 +6,8 @@ const generateHtml = require('./src/generateHtml');
 
 const fs = require('fs');
 
+const employeeData = [];
+
 const promptQuestions = () => {
     return inquirer.prompt([
         
@@ -68,34 +70,55 @@ const promptQuestions = () => {
         default: false
     },
   ])
-  .then(nextRole => {
-    
-    if (nextRole.confirmAddEngineer) {
+  .then(storeManager => {
+    const manager = new Manager(storeManager.managername, storeManager.managerid, storeManager.manageremail, storeManager.office)
+
+    employeeData.push(manager);
+    if (storeManager.confirmAddEngineer) {
         return addEngineer();
     } else {
-        addIntern();
+        return nextEmployee();
     }
   });
 };
+
+const nextEmployee = () => {
+    return inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'addNextRole',
+            message: 'Would you like to add an intern?',
+            default: false
+        }
+    ])
+    .then(decideNextEmployee => {
+        if(decideNextEmployee.addNextRole) {
+            return addIntern();
+        } else {
+            return endTeam();
+        }
+    })
+}
 
 const endTeam = () => {
     return inquirer.prompt([
         {
             type: 'confirm',
             name: 'confirmEnd',
-            message: 'Mark NO to end prompts.',
+            message: 'Type NO to end prompts.',
             default: false
         }
     ])
-    .then(newPrompt => {
-        if (newPrompt === true) {
-            return promptQuestions();
-        }
-    })
+    // .then(newPrompt => {
+    //     if (newPrompt === true) {
+    //         return promptQuestions();
+    //     }
+    // })
 }
 
 const addEngineer = () => {
     return inquirer.prompt([
+        
         {
             type: 'input',
             name: 'engineername',
@@ -155,8 +178,11 @@ const addEngineer = () => {
             default: false
         }
     ])
-    .then(anotherRole => {
-        if (anotherRole.confirmAddIntern) {
+    .then(storeEngineer => {
+        const engineer = new Engineer(storeEngineer.engineername, storeEngineer.engineerid, storeEngineer.engineeremail, storeEngineer.github)
+
+        employeeData.push(engineer);
+        if (storeEngineer.confirmAddIntern) {
             return addIntern();
         } else {
             return endTeam();
@@ -166,6 +192,7 @@ const addEngineer = () => {
 
 const addIntern = () => {
     return inquirer.prompt([
+        
         {
             type: 'input',
             name: 'internname',
@@ -218,8 +245,16 @@ const addIntern = () => {
               }
             }
         },
-    ]);
+    ])
+    .then(storeIntern => {
+        const intern = new Intern(storeIntern.internname, storeIntern.internid, storeIntern.internemail, storeIntern.school)
+
+        employeeData.push(intern);
+        console.log(employeeData);
+    })
 }
+
+
 
 //promptQuestions();
 
@@ -228,14 +263,13 @@ function writeToFile(data) {
     fs.writeFile('./dist/index.html', data, err => {
         if (err) throw err;
     })
-
 }
 
 // function to initialize program
 function init() {
     promptQuestions()
-    .then(inputData => {
-        const createHtml = generateHtml(inputData)
+    .then(employeeData => {
+        const createHtml = generateHtml(employeeData)
         writeToFile(createHtml)
     })
 }
